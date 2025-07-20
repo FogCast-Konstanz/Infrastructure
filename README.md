@@ -1,19 +1,29 @@
-# Nginx proxy and InfluxDB database for the FogCast project
+# Infrastructure for FogCast Project
+
+This repository contains the infrastructure setup for the FogCast project, including configurations for Nginx as a reverse proxy and InfluxDB as the database.
+
+## Components
+
+### Nginx Proxy
+- Acts as a reverse proxy for various services.
+- Configured to handle SSL certificates and redirect HTTP traffic to HTTPS.
+- Routes requests to the FogCast frontend, API, status reporter, and InfluxDB.
+
+### InfluxDB
+- Used for storing weather data and forecasts.
+- Automatically creates required buckets using the `setup-buckets.sh` script.
+- Provides token-based authentication for API access.
 
 ## Prerequisites
 
-Create the proxy-net network
+- Create the `proxy-net` network:
 ```bash
 docker network create proxy-net
 ```
 
-## Create Additional Buckets
+## Additional Information
 
-There is a script that creates all buckets needed for the FogCast project.
-It will be run automatically when the InfluxDB container is created the first time.
-
-If the container is already created, you can create the buckets manually.
-
+- Buckets can be created manually if needed:
 ```bash
 docker exec -it fogcast-influxdb \
 influx bucket create \
@@ -22,10 +32,7 @@ influx bucket create \
 --retention 0
 ```
 
-## Create InfluxDB tokens
-
-Create a token for the FogCast API to read and write data from the database.
-
+- Tokens for API access can be created using:
 ```bash
 influx auth create \
 --read-bucket ${WEATHER_FORECAST_BUCKET_ID} \
