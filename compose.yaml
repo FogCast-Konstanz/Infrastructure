@@ -41,7 +41,7 @@ services:
       - type: bind
         source: ./influx-conf
         target: /etc/influxdb2
-      - ./setup-buckets.sh:/docker-entrypoint-initdb.d/setup-buckets.sh
+      - ./setup-additional-buckets.sh:/docker-entrypoint-initdb.d/setup-additional-buckets.sh
     networks:
       - proxy-net
       - default
