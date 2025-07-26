@@ -1,5 +1,5 @@
-*-data/
-*-conf/
+influx-data
+influx-conf
 .cache.sqlite
 **/settings.user.json
 .env.*
