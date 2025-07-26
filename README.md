@@ -35,9 +35,8 @@ influx bucket create \
 - Tokens for API access can be created using:
 ```bash
 influx auth create \
---read-bucket ${WEATHER_FORECAST_BUCKET_ID} \
---write-bucket ${WEATHER_FORECAST_BUCKET_ID} \
---read-bucket ${WEATHER_DATA_BUCKET_ID} \
---write-bucket ${WEATHER_DATA_BUCKET_ID} \
+--org FogCast \
+--read-buckets \
+--write-buckets \
 --description "FogCast API token"
 ```
