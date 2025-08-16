@@ -11,7 +11,7 @@ This repository contains the infrastructure setup for the FogCast project, inclu
 
 ### InfluxDB
 - Used for storing weather data and forecasts.
-- Automatically creates required buckets using the `setup-buckets.sh` script.
+- Automatically creates required buckets using the `setup-buckets.sh` script, but only on the first startup.
 - Provides token-based authentication for API access.
 
 ## Prerequisites
@@ -21,18 +21,24 @@ This repository contains the infrastructure setup for the FogCast project, inclu
 docker network create proxy-net
 ```
 
-## Additional Information
+## Creating buckets and tokens
 
-- Buckets can be created manually if needed:
+The preferred way to create buckets and tokens in the InfluxDB is to use the Web-UI. Because the InfluxDB is behind a NGINX reverse proxy, the Web-UI isn't accessible. This is because of a bug / missing feature in the InfluxDB: https://github.com/influxdata/influxdb/issues/15721 
+
+Thats why when you want to create a bucket or a token you have to use the CLI. Accessing the CLI of the InfluxDB when it's running in a container can be done with the command `docker exec -it fogcast-influxdb /bin/sh`.
+
+### Creating new buckets
+
 ```bash
-docker exec -it fogcast-influxdb \
 influx bucket create \
 --name ${BUCKET_NAME} \
 --org FogCast \
 --retention 0
 ```
+There is also a good [documentation](https://docs.influxdata.com/influxdb/v2/admin/buckets/) on how to manage buckets via the CLI.
 
-- Tokens for API access can be created using:
+### Creating new tokens
+
 ```bash
 influx auth create \
 --org FogCast \
@@ -40,3 +46,8 @@ influx auth create \
 --write-buckets \
 --description "FogCast API token"
 ```
+
+Just like for the buckets, there is also an official [documentation](https://docs.influxdata.com/influxdb/v2/admin/tokens/) on how to manage tokens.
+
+
+
